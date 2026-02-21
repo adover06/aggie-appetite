@@ -18,7 +18,7 @@ export interface ScanResponse {
 export interface RecipeIngredient {
   name: string;
   status: "available" | "missing";
-  substitution?: string;
+  substitution: string | null;
 }
 
 export interface Recipe {
@@ -59,9 +59,9 @@ export const mockRecipeResponse: RecipeResponse = {
       academic_fuel_score: 8.5,
       fuel_summary: "High in healthy fats for long CS labs.",
       ingredients: [
-        { name: "Peanut Butter", status: "available" },
-        { name: "Ramen Noodles", status: "available" },
-        { name: "Soy Sauce", status: "available" },
+        { name: "Peanut Butter", status: "available", substitution: null },
+        { name: "Ramen Noodles", status: "available", substitution: null },
+        { name: "Soy Sauce", status: "available", substitution: null },
         {
           name: "Egg",
           status: "missing",
@@ -86,9 +86,9 @@ export const mockRecipeResponse: RecipeResponse = {
       academic_fuel_score: 9.2,
       fuel_summary: "Complex carbs + plant protein to power through midterms.",
       ingredients: [
-        { name: "Rice", status: "available" },
-        { name: "Canned Black Beans", status: "available" },
-        { name: "Soy Sauce", status: "available" },
+        { name: "Rice", status: "available", substitution: null },
+        { name: "Canned Black Beans", status: "available", substitution: null },
+        { name: "Soy Sauce", status: "available", substitution: null },
         {
           name: "Avocado",
           status: "missing",
@@ -107,8 +107,8 @@ export const mockRecipeResponse: RecipeResponse = {
       academic_fuel_score: 7.8,
       fuel_summary: "Slow-release energy for early morning lectures.",
       ingredients: [
-        { name: "Oats", status: "available" },
-        { name: "Peanut Butter", status: "available" },
+        { name: "Oats", status: "available", substitution: null },
+        { name: "Peanut Butter", status: "available", substitution: null },
         {
           name: "Milk",
           status: "missing",
