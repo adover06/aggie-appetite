@@ -121,11 +121,15 @@ async def _direct_pipeline(
     # Step 3: For each recipe, run substitution check + academic fuel scoring
     recipes = []
     for i, raw in enumerate(raw_recipes):
-        recipe_ingredients = [
-            ing.strip()
-            for ing in raw.get("ingredients_raw", "").split(",")
-            if ing.strip()
-        ]
+        # Ingredient lines are already parsed by the sheets tool
+        recipe_ingredients = raw.get("ingredient_lines", [])
+        if not recipe_ingredients:
+            # Fallback: split newline-separated raw text
+            recipe_ingredients = [
+                line.strip()
+                for line in raw.get("ingredients_raw", "").split("\n")
+                if line.strip()
+            ]
 
         # Run substitution expert
         sub_results = await direct_substitution(
@@ -147,15 +151,14 @@ async def _direct_pipeline(
         ing_names = [sub["name"] for sub in sub_results]
         score, summary = calculate_academic_fuel_score(ing_names)
 
-        # Parse instructions
-        instructions_raw = raw.get("instructions_raw", "")
-        if isinstance(instructions_raw, str):
+        # Instructions are already parsed by the sheets tool
+        instructions = raw.get("instructions", [])
+        if not instructions:
+            instructions_raw = raw.get("instructions_raw", "")
             instructions = [
-                s.strip() for s in instructions_raw.split(".")
+                s.strip() for s in instructions_raw.split("\n")
                 if s.strip()
             ]
-        else:
-            instructions = [str(instructions_raw)]
 
         recipes.append(Recipe(
             id=raw.get("id", f"recipe_{i + 1:03d}"),

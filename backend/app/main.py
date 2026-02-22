@@ -9,7 +9,6 @@ from uuid import uuid4
 
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from notion_client import AsyncClient as NotionClient
 
 from app.config import settings
 from app.schemas.scan import ScanResponse, IdentifiedItem
@@ -26,8 +25,7 @@ async def lifespan(app: FastAPI):
     # Warm pantry cache on startup if Notion is configured
     if settings.NOTION_API_KEY:
         try:
-            notion = NotionClient(auth=settings.NOTION_API_KEY)
-            await pantry_cache.get_items(notion, settings.NOTION_PANTRY_DATABASE_ID)
+            await pantry_cache.get_items()
         except Exception:
             pass  # Don't block startup if Notion is unreachable
     yield

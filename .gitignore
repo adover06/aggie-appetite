@@ -1,0 +1,24 @@
+# Environment & secrets
+.env
+backend/.env
+backend/credentials.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+backend/venv/
+.venv/
+
+# Node
+node_modules/
+frontend/node_modules/
+.next/
+frontend/.next/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
