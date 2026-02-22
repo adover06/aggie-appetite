@@ -46,7 +46,7 @@ export const mockScanResponse: ScanResponse = {
     { name: "Oats", confidence: 0.88, source: "ASUCD Pantry" },
     { name: "Ramen Noodles", confidence: 0.94, source: "Pantry Staple" },
   ],
-  suggested_filters: ["Vegetarian", "High Protein", "No-Cook", "Quick (<15 min)"],
+  suggested_filters: ["High Protein", "Weight Loss", "Quick (<15 min)", "No-Cook", "Budget Friendly", "Meal Prep"],
 };
 
 // ── Mock: POST /generate-recipes ───────────────────────
