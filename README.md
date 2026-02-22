@@ -1,9 +1,9 @@
-# Scan, Swap, Save
+# Aggie Appetite
 
 ---
 
-- **Hackathon:** SacHacks 2026 (Sacramento State University)
-- **Date:** February 22-23, 2026
+- **Hackathon:** SacHacks 2026 (University of California, Davis)
+- **Date:** February 21-22, 2026
 - **Tracks:**
   - Best Technical Implementation
   - Best Design
@@ -11,21 +11,21 @@
 
 ## About our project
 
-- Scan, Swap, Save is a smart pantry recipe platform built for UC Davis students that bridges the gap between food access and food preparation.
+- Aggie Appetite is a smart pantry recipe platform built for UC Davis students that bridges the gap between food access and food preparation.
 - Users scan their pantry items using AI-powered image recognition, and the app cross-references them with the ASUCD Pantry inventory to identify what's available on campus.
-- A Substitution Engine powered by LangChain agents suggests UC Davis pantry-specific ingredient swaps for missing items (e.g., applesauce for eggs).
+- A Substitution Engine powered by LangChain agents suggests UC Davis pantry-specific ingredient swaps for missing items (e.g., Greek yogurt as a substitution for sour cream).
 - Generates personalized recipes from the ASUCD Pantry recipe database or via an AI Chef, filtered by dietary preferences, allergies, and health goals.
 - Supports user accounts with Firebase Authentication (Google Sign-In, email/password) for saving favorite recipes across sessions.
 
 ## Technologies used:
 
-`Next.js` `TypeScript` `Tailwind CSS` `FastAPI` `LangChain` `LangGraph` `Groq` `Llama 3.1` `LLaVA` `YOLOv8` `Notion API` `Google Sheets API` `Firebase Auth` `Firestore`
+`Next.js` `TypeScript` `Tailwind CSS` `FastAPI` `LangChain` `LangGraph` `Groq` `Llama 3.1` `LLaVA` `YOLOv8` `Notion API` `Google Cloud Console` `Firebase Auth` `Firestore`
 
 ## How it works
 
 1. **Scan** — Upload a photo of your pantry items. YOLOv8 + LLaVA vision models identify the ingredients and cross-reference them with the ASUCD Pantry database via Notion API.
 2. **Swap** — Select your items, choose dietary preferences and quick filters. The LangChain-powered Substitution Engine checks for missing ingredients and suggests pantry-specific swaps.
-3. **Save** — Browse generated recipes from the ASUCD Pantry recipe database (Google Sheets) or get original recipes from the AI Chef (Groq/Llama 3.1). Save your favorites to your account.
+3. **Save** — Browse generated recipes from the ASUCD Pantry recipe database or get original recipes from the AI Chef (Groq/Llama 3.1). Save your favorites to your account.
 
 ## Architecture
 
@@ -40,7 +40,7 @@ backend/           FastAPI + LangChain + Python
   app/agents/      LangChain agents (Planner, Substitution Expert, Generative Chef)
   app/tools/       Custom tools (Notion, Google Sheets, Image Processing)
   app/schemas/     Pydantic request/response models
-  app/services/    Academic Fuel scoring, Pantry cache
+  app/services/    Pantry cache
 ```
 
 ## Future enhancements
