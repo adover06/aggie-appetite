@@ -38,9 +38,7 @@ export default function RecipesPage() {
     );
   }
 
-  const recipes = [...recipesResult.recipes].sort(
-    (a, b) => b.academic_fuel_score - a.academic_fuel_score
-  );
+  const recipes = recipesResult.recipes;
 
   const handleFavoriteChange = (recipeId: string, isFavorited: boolean) => {
     setFavoriteIds((prev) => {
@@ -59,7 +57,6 @@ export default function RecipesPage() {
           <h1 className="text-2xl font-bold tracking-tight">Your Recipes</h1>
           <p className="mt-1 text-sm text-muted">
             {recipes.length} recipes from {selectedItems.length} ingredients.
-            Sorted by Academic Fuel score.
           </p>
         </div>
         <Button
