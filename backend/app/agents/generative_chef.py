@@ -69,6 +69,7 @@ IMPORTANT RULES:
 - Each recipe should be completable in under 45 minutes.
 - Make sure to only give the top most relevant recipes.
 - If the ingredients are not enough to make a recipe, don't give one.
+-Sort ingerdients by complexity, the simple ones should be at the bottom.
 
 Return ONLY a JSON array of recipes in this exact format, no other text:
 [
