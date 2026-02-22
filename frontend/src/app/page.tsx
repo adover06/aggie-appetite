@@ -15,7 +15,7 @@ const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === "true";
 const features = [
   {
     title: "Scan",
-    desc: "Take a photo of your pantry items and let AI identify what you have.",
+    desc: "Snap a photo of your pantry haul and let AI vision identify your ingredients instantly.",
     icon: (
       <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
@@ -25,7 +25,7 @@ const features = [
   },
   {
     title: "Swap",
-    desc: "AI finds smart ingredient substitutions from the ASUCD Pantry.",
+    desc: "Missing an ingredient? Our AI suggests smart substitutions using items from the ASUCD Pantry.",
     icon: (
       <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
@@ -34,7 +34,7 @@ const features = [
   },
   {
     title: "Save",
-    desc: "Get recipes scored for academic performance and save your favorites.",
+    desc: "Browse personalized recipes tailored to your dietary needs and save your favorites for later.",
     icon: (
       <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
@@ -165,11 +165,11 @@ export default function Home() {
       <main className="flex flex-col items-center pt-8">
         <div className="mb-10 text-center">
           <h1 className="bg-gradient-to-r from-green-400 to-green-700 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl">
-            Scan, Swap, Save
+            Aggie Appetite
           </h1>
           <p className="mx-auto mt-4 max-w-md text-lg text-muted">
-            Snap your pantry. Get smart recipes using ASUCD Pantry items with
-            brain-boosting Academic Fuel scores.
+            Snap your pantry. Get smart recipes with ingredient swaps
+            using the ASUCD Pantry.
           </p>
         </div>
 
@@ -293,11 +293,11 @@ export default function Home() {
           Welcome back, {displayName}
         </p>
         <h1 className="mt-2 bg-gradient-to-r from-green-400 to-green-700 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl">
-          Scan, Swap, Save
+          Aggie Appetite
         </h1>
         <p className="mx-auto mt-4 max-w-md text-lg text-muted">
-          Snap your pantry. Get smart recipes using ASUCD Pantry items with
-          brain-boosting Academic Fuel scores.
+          Snap your pantry. Get smart recipes with ingredient swaps
+          using the ASUCD Pantry.
         </p>
       </div>
 

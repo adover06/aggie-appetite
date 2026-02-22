@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Scan, Swap, Save",
+  title: "Aggie Appetite",
   description:
     "Smart pantry scanning and recipe generation for UC Davis students. Powered by ASUCD Pantry.",
 };

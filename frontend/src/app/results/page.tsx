@@ -14,6 +14,15 @@ import { useState, useEffect, useRef } from "react";
 
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === "true";
 
+const QUICK_FILTERS = [
+  "High Protein",
+  "Weight Loss",
+  "Quick (<15 min)",
+  "No-Cook",
+  "Budget Friendly",
+  "Meal Prep",
+];
+
 const DIETARY_OPTIONS = [
   "Vegetarian",
   "Vegan",
@@ -140,14 +149,12 @@ export default function ResultsPage() {
 
       {/* Filters */}
       <div className="mt-8 space-y-6">
-        {scanResult.suggested_filters.length > 0 && (
-          <FilterChips
-            label="Quick Filters"
-            options={scanResult.suggested_filters}
-            selected={selectedFilters}
-            onToggle={toggleFilter}
-          />
-        )}
+        <FilterChips
+          label="Quick Filters"
+          options={QUICK_FILTERS}
+          selected={selectedFilters}
+          onToggle={toggleFilter}
+        />
 
         <FilterChips
           label="Dietary Preferences"

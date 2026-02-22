@@ -20,7 +20,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2">
           <span className="text-xl">🥘</span>
           <span className="text-base font-semibold tracking-tight text-foreground">
-            Scan, Swap, Save
+            Aggie Appetite
           </span>
         </Link>
 
