@@ -12,9 +12,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.schemas.scan import ScanResponse, IdentifiedItem
-from app.schemas.recipes import GenerateRecipesRequest, GenerateRecipesResponse
+from app.schemas.recipes import GenerateRecipesRequest, GenerateAIRecipeRequest, GenerateRecipesResponse
 from app.tools.image_processor import analyze_pantry_image
 from app.agents.planner import run_planner_agent
+from app.agents.generative_chef import run_generative_chef
 from app.services.pantry_cache import PantryCache
 
 pantry_cache = PantryCache()
@@ -156,5 +157,29 @@ async def generate_recipes(request: GenerateRecipesRequest):
         )
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Recipe generation error: {str(e)}")
+
+    return result
+
+
+# ---------- POST /generate-ai-recipe ----------
+
+@app.post("/generate-ai-recipe", response_model=GenerateRecipesResponse)
+async def generate_ai_recipe(request: GenerateAIRecipeRequest):
+    """
+    Generate fully original AI-created recipes from available ingredients.
+    No spreadsheet lookup — purely LLM-generated.
+    """
+    if not request.identified_items:
+        raise HTTPException(status_code=400, detail="No ingredients provided")
+
+    try:
+        result = await run_generative_chef(
+            ingredients=request.identified_items,
+            filters=request.filters,
+            dietary_preferences=request.dietary_preferences,
+            settings=settings,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"AI recipe generation error: {str(e)}")
 
     return result

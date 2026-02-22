@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useApp } from "@/context/AppContext";
 import { useAuth } from "@/context/AuthContext";
-import { generateRecipes } from "@/lib/api";
+import { generateRecipes, generateAIRecipe } from "@/lib/api";
 import { mockRecipeResponse } from "@/lib/mockData";
 import { getUserProfile, saveAllergies } from "@/lib/user";
 import { ItemList } from "@/components/ItemList";
@@ -76,7 +76,7 @@ export default function ResultsPage() {
     );
   }
 
-  const handleGenerate = async () => {
+  const handleGenerate = async (mode: "database" | "ai" = "database") => {
     if (selectedItems.length === 0) return;
     setError(null);
     setIsGenerating(true);
@@ -86,18 +86,22 @@ export default function ResultsPage() {
       saveAllergies(uid, dietaryPreferences).catch(() => {});
     }
 
+    const requestBody = {
+      session_id: scanResult.session_id,
+      identified_items: selectedItems.map((i) => i.name),
+      filters: selectedFilters,
+      dietary_preferences: dietaryPreferences,
+    };
+
     try {
       let result;
       if (USE_MOCK) {
         await new Promise((r) => setTimeout(r, 2000));
         result = mockRecipeResponse;
+      } else if (mode === "ai") {
+        result = await generateAIRecipe(requestBody);
       } else {
-        result = await generateRecipes({
-          session_id: scanResult.session_id,
-          identified_items: selectedItems.map((i) => i.name),
-          filters: selectedFilters,
-          dietary_preferences: dietaryPreferences,
-        });
+        result = await generateRecipes(requestBody);
       }
       setRecipesResult(result);
       router.push("/recipes");
@@ -160,22 +164,35 @@ export default function ResultsPage() {
         </div>
       )}
 
-      {/* Generate button */}
-      <div className="mt-10 flex justify-center">
+      {/* Generate buttons */}
+      <div className="mt-10 flex justify-center gap-4">
         <Button
           size="lg"
-          onClick={handleGenerate}
+          onClick={() => handleGenerate("database")}
           disabled={selectedItems.length === 0 || isGenerating}
         >
           {isGenerating ? (
             <>
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-              Generating Recipes...
+              Generating...
             </>
           ) : (
+            <>Generate Recipes ({selectedItems.length} items)</>
+          )}
+        </Button>
+        <Button
+          size="lg"
+          variant="secondary"
+          onClick={() => handleGenerate("ai")}
+          disabled={selectedItems.length === 0 || isGenerating}
+        >
+          {isGenerating ? (
             <>
-              🧠 Generate Recipes ({selectedItems.length} items)
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              Generating...
             </>
+          ) : (
+            <>AI Chef ({selectedItems.length} items)</>
           )}
         </Button>
       </div>

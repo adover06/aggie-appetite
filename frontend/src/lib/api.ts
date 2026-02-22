@@ -50,3 +50,22 @@ export async function generateRecipes(
 
   return res.json();
 }
+
+export async function generateAIRecipe(
+  request: GenerateRecipesRequest
+): Promise<GenerateRecipesResponse> {
+  const res = await fetch(`${API_BASE}/generate-ai-recipe`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(request),
+  });
+
+  if (!res.ok) {
+    const status = res.status;
+    if (status === 400) throw new Error("No ingredients provided");
+    if (status === 502) throw new Error("AI recipe engine unreachable");
+    throw new Error(`AI recipe generation failed (${status})`);
+  }
+
+  return res.json();
+}

@@ -24,5 +24,12 @@ class GenerateRecipesRequest(BaseModel):
     dietary_preferences: list[str] = []
 
 
+class GenerateAIRecipeRequest(BaseModel):
+    session_id: str
+    identified_items: list[str]
+    filters: list[str] = []
+    dietary_preferences: list[str] = []
+
+
 class GenerateRecipesResponse(BaseModel):
     recipes: list[Recipe]
