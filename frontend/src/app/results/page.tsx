@@ -15,11 +15,13 @@ import { useState, useEffect, useRef } from "react";
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === "true";
 
 const DIETARY_OPTIONS = [
+  "Vegetarian",
+  "Vegan",
   "No Dairy",
   "Gluten Free",
   "Nut Free",
-  "Vegan",
   "Halal",
+  "Kosher",
 ];
 
 export default function ResultsPage() {
@@ -32,7 +34,6 @@ export default function ResultsPage() {
     isGenerating,
     toggleItem,
     removeItem,
-    addCustomItem,
     toggleFilter,
     toggleDietaryPreference,
     setRecipesResult,
@@ -134,7 +135,6 @@ export default function ResultsPage() {
           selectedItems={selectedItems}
           onToggle={toggleItem}
           onRemove={removeItem}
-          onAddCustom={addCustomItem}
         />
       )}
 
@@ -177,7 +177,7 @@ export default function ResultsPage() {
               Generating...
             </>
           ) : (
-            <>Generate Recipes ({selectedItems.length} items)</>
+            <>ASUCD Pantry Recipes ({selectedItems.length} items)</>
           )}
         </Button>
         <Button

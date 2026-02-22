@@ -1,16 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import type { IdentifiedItem } from "@/lib/types";
 import { Badge } from "./ui/Badge";
-import { Button } from "./ui/Button";
 
 interface ItemListProps {
   items: IdentifiedItem[];
   selectedItems: IdentifiedItem[];
   onToggle: (item: IdentifiedItem) => void;
   onRemove: (name: string) => void;
-  onAddCustom: (name: string) => void;
 }
 
 export function ItemList({
@@ -18,23 +15,11 @@ export function ItemList({
   selectedItems,
   onToggle,
   onRemove,
-  onAddCustom,
 }: ItemListProps) {
-  const [customInput, setCustomInput] = useState("");
-
   const selectedNames = new Set(selectedItems.map((i) => i.name));
-
-  const handleAddCustom = () => {
-    const trimmed = customInput.trim();
-    if (trimmed) {
-      onAddCustom(trimmed);
-      setCustomInput("");
-    }
-  };
 
   return (
     <div className="space-y-3">
-      {/* Item list */}
       {items.map((item) => {
         const isSelected = selectedNames.has(item.name);
         return (
@@ -105,26 +90,6 @@ export function ItemList({
           </div>
         );
       })}
-
-      {/* Add custom item */}
-      <div className="flex gap-2 pt-2">
-        <input
-          type="text"
-          value={customInput}
-          onChange={(e) => setCustomInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleAddCustom()}
-          placeholder="Add an item manually..."
-          className="h-11 flex-1 rounded-xl border border-border bg-card px-4 text-sm outline-none transition-colors placeholder:text-muted focus:border-primary"
-        />
-        <Button
-          variant="secondary"
-          size="md"
-          onClick={handleAddCustom}
-          disabled={!customInput.trim()}
-        >
-          Add
-        </Button>
-      </div>
     </div>
   );
 }
