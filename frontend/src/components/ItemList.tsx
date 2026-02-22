@@ -75,14 +75,9 @@ export function ItemList({
             {/* Name */}
             <span className="flex-1 text-sm font-medium">{item.name}</span>
 
-            {/* Confidence */}
-            <span className="text-xs text-muted">
-              {Math.round(item.confidence * 100)}%
-            </span>
-
             {/* Source badge */}
             <Badge variant={item.source === "ASUCD Pantry" ? "success" : "info"}>
-              {item.source === "ASUCD Pantry" ? "Pantry" : "Personal"}
+              {item.source === "ASUCD Pantry" ? "ASUCD Pantry" : "Your Item"}
             </Badge>
 
             {/* Remove button */}
@@ -119,7 +114,7 @@ export function ItemList({
           onChange={(e) => setCustomInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAddCustom()}
           placeholder="Add an item manually..."
-          className="h-11 flex-1 rounded-xl border border-border bg-white px-4 text-sm outline-none transition-colors placeholder:text-muted focus:border-primary"
+          className="h-11 flex-1 rounded-xl border border-border bg-card px-4 text-sm outline-none transition-colors placeholder:text-muted focus:border-primary"
         />
         <Button
           variant="secondary"

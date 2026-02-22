@@ -11,6 +11,38 @@ import { Button } from "@/components/ui/Button";
 
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === "true";
 
+/* ── Feature cards with SVG icons ── */
+const features = [
+  {
+    title: "Scan",
+    desc: "Take a photo of your pantry items and let AI identify what you have.",
+    icon: (
+      <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Swap",
+    desc: "AI finds smart ingredient substitutions from the ASUCD Pantry.",
+    icon: (
+      <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+      </svg>
+    ),
+  },
+  {
+    title: "Save",
+    desc: "Get recipes scored for academic performance and save your favorites.",
+    icon: (
+      <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+      </svg>
+    ),
+  },
+];
+
 export default function Home() {
   const router = useRouter();
   const { setScanResult, isScanning, setIsScanning } = useApp();
@@ -100,6 +132,24 @@ export default function Home() {
     }
   };
 
+  /* ── Feature cards section (shared between auth & scanner views) ── */
+  const featureCards = (
+    <div className="mt-16 grid w-full max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
+      {features.map((f) => (
+        <div
+          key={f.title}
+          className="rounded-2xl border border-border bg-card p-6 text-left"
+        >
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-light">
+            {f.icon}
+          </div>
+          <h3 className="text-base font-semibold text-foreground">{f.title}</h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted">{f.desc}</p>
+        </div>
+      ))}
+    </div>
+  );
+
   // Show loading while Firebase checks auth state
   if (loading) {
     return (
@@ -114,8 +164,8 @@ export default function Home() {
     return (
       <main className="flex flex-col items-center pt-8">
         <div className="mb-10 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-            Scan, Swap, Sustain
+          <h1 className="bg-gradient-to-r from-green-400 to-green-700 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl">
+            Scan, Swap, Save
           </h1>
           <p className="mx-auto mt-4 max-w-md text-lg text-muted">
             Snap your pantry. Get smart recipes using ASUCD Pantry items with
@@ -229,20 +279,7 @@ export default function Home() {
           </Button>
         </div>
 
-        {/* How it works */}
-        <div className="mt-16 grid w-full max-w-2xl grid-cols-3 gap-8 text-center">
-          {[
-            { icon: "📸", title: "Scan", desc: "Take a photo of your pantry items" },
-            { icon: "🔄", title: "Swap", desc: "AI finds smart substitutions from the pantry" },
-            { icon: "🧠", title: "Sustain", desc: "Get recipes scored for academic performance" },
-          ].map((step) => (
-            <div key={step.title} className="flex flex-col items-center gap-2">
-              <span className="text-3xl">{step.icon}</span>
-              <h3 className="text-sm font-semibold">{step.title}</h3>
-              <p className="text-xs text-muted">{step.desc}</p>
-            </div>
-          ))}
-        </div>
+        {featureCards}
       </main>
     );
   }
@@ -252,11 +289,11 @@ export default function Home() {
     <main className="flex flex-col items-center pt-8">
       {/* Welcome header */}
       <div className="mb-10 text-center">
-        <p className="text-sm font-medium text-primary">
+        <p className="text-lg font-semibold text-primary">
           Welcome back, {displayName}
         </p>
-        <h1 className="mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl bg-gradient-to-r from-green-300 to-green-500 bg-clip-text text-transparent">
-          Scan, Swap, Sustain
+        <h1 className="mt-2 bg-gradient-to-r from-green-400 to-green-700 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl">
+          Scan, Swap, Save
         </h1>
         <p className="mx-auto mt-4 max-w-md text-lg text-muted">
           Snap your pantry. Get smart recipes using ASUCD Pantry items with
@@ -290,20 +327,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* How it works */}
-      <div className="mt-16 grid w-full max-w-2xl grid-cols-3 gap-8 text-center">
-        {[
-          { icon: "📸", title: "Scan", desc: "Take a photo of your pantry items" },
-          { icon: "🔄", title: "Swap", desc: "AI finds smart substitutions from the pantry" },
-          { icon: "🧠", title: "Sustain", desc: "Get recipes scored for academic performance" },
-        ].map((step) => (
-          <div key={step.title} className="flex flex-col items-center gap-2">
-            <span className="text-3xl">{step.icon}</span>
-            <h3 className="text-sm font-semibold">{step.title}</h3>
-            <p className="text-xs text-muted">{step.desc}</p>
-          </div>
-        ))}
-      </div>
+      {featureCards}
     </main>
   );
 }
