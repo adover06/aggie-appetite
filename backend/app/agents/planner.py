@@ -8,8 +8,7 @@ import json
 
 from langchain_ollama import ChatOllama
 from langchain_core.messages import SystemMessage, HumanMessage
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langgraph.prebuilt import create_react_agent
 
 from app.config import Settings
 from app.tools.google_sheets_recipes import query_recipe_database
@@ -41,51 +40,11 @@ async def run_planner_agent(
     settings: Settings,
 ) -> GenerateRecipesResponse:
     """
-    Orchestrate recipe generation using the Planner Agent.
-
-    Falls back to a direct (non-agent) pipeline if tool-calling fails.
+    Orchestrate recipe generation.
+    Uses the direct pipeline (more reliable for hackathon).
+    Falls back gracefully on any error.
     """
-    try:
-        return await _agent_pipeline(ingredients, filters, dietary_preferences, settings)
-    except Exception:
-        # Fallback: direct pipeline without agent orchestration
-        return await _direct_pipeline(ingredients, filters, dietary_preferences, settings)
-
-
-async def _agent_pipeline(
-    ingredients: list[str],
-    filters: list[str],
-    dietary_preferences: list[str],
-    settings: Settings,
-) -> GenerateRecipesResponse:
-    """Try using the LangChain tool-calling agent."""
-    llm = ChatOllama(
-        model=settings.OLLAMA_TEXT_MODEL,
-        base_url=settings.OLLAMA_BASE_URL,
-        temperature=0,
-    )
-
-    tools = [query_recipe_database, query_pantry_inventory, run_substitution_check]
-
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", PLANNER_SYSTEM),
-        ("human", "{input}"),
-        MessagesPlaceholder(variable_name="agent_scratchpad"),
-    ])
-
-    agent = create_tool_calling_agent(llm, tools, prompt)
-    executor = AgentExecutor(agent=agent, tools=tools, max_iterations=10, verbose=False)
-
-    user_input = (
-        f"Available ingredients: {json.dumps(ingredients)}\n"
-        f"Dietary filters: {json.dumps(filters)}\n"
-        f"Preferences: {json.dumps(dietary_preferences)}\n\n"
-        "Find matching recipes, check substitutions, and return results."
-    )
-
-    result = await executor.ainvoke({"input": user_input})
-    # The agent output is text — parse into structured response
-    return _parse_agent_output(result.get("output", ""), ingredients)
+    return await _direct_pipeline(ingredients, filters, dietary_preferences, settings)
 
 
 async def _direct_pipeline(
@@ -172,14 +131,3 @@ async def _direct_pipeline(
     return GenerateRecipesResponse(recipes=recipes)
 
 
-def _parse_agent_output(output: str, ingredients: list[str]) -> GenerateRecipesResponse:
-    """Attempt to parse agent text output into structured response."""
-    try:
-        data = json.loads(output)
-        if "recipes" in data:
-            return GenerateRecipesResponse(**data)
-    except (json.JSONDecodeError, Exception):
-        pass
-
-    # If agent output isn't parseable, return empty
-    return GenerateRecipesResponse(recipes=[])
