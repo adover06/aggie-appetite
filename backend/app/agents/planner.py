@@ -67,6 +67,9 @@ async def _direct_pipeline(
 
     # Step 2: Search recipes
     all_available = list(set(ingredients + pantry_names))
+    print(f"[Planner] User items: {ingredients}")
+    print(f"[Planner] Notion pantry items: {pantry_names}")
+    print(f"[Planner] Combined available ({len(all_available)}): {all_available}")
     recipes_json = await query_recipe_database.ainvoke({
         "ingredients": all_available,
         "max_results": 5,

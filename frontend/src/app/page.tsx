@@ -255,7 +255,7 @@ export default function Home() {
         <p className="text-sm font-medium text-primary">
           Welcome back, {displayName}
         </p>
-        <h1 className="mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <h1 className="mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl bg-gradient-to-r from-green-300 to-green-500 bg-clip-text text-transparent">
           Scan, Swap, Sustain
         </h1>
         <p className="mx-auto mt-4 max-w-md text-lg text-muted">

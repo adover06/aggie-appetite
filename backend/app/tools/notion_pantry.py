@@ -118,14 +118,16 @@ async def query_pantry_inventory(category: str = "") -> str:
 
     all_items = await get_all_pantry_items()
 
-    # Filter to available items
-    available = [i for i in all_items if i["available"]]
+    # Return all pantry food items (for substitution engine to use as swap options)
+    # Filter out non-food categories
+    non_food = {"personal care"}
+    food_items = [i for i in all_items if i["category"].lower() not in non_food]
 
     # Optional category filter
     if category:
-        available = [
-            i for i in available
+        food_items = [
+            i for i in food_items
             if i["category"].lower() == category.lower()
         ]
 
-    return json.dumps(available)
+    return json.dumps(food_items)

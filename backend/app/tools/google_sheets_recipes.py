@@ -44,19 +44,32 @@ def _extract_ingredient_name(raw: str) -> str:
          '1 cup iceberg salad, shredded' → 'iceberg salad'
          '1 pouch Barilla Ready Pasta Elbows' → 'barilla ready pasta elbows'
     """
-    # Remove leading quantities like "1", "2 tbsp", "1/2 cup", "⅓ cup"
+    cleaned = raw.strip()
+    # Remove leading quantities
+    cleaned = re.sub(r"^[\d½⅓¼¾⅔⅛/.×\-]+\s*", "", cleaned)
+    # Remove unit words (whole words only)
     cleaned = re.sub(
-        r"^[\d½⅓¼¾⅔⅛/.\-]+\s*"           # leading numbers/fractions
-        r"(cups?|tbsps?|tsps?|oz|lbs?|"     # units
-        r"cans?|pouche?s?|slices?|leaves?|"
-        r"pieces?|cloves?|pinch|dash|"
-        r"tablespoons?|teaspoons?|pounds?|"
-        r"ounces?)\s*(of\s+)?",
+        r"^(cups?|tbsps?|tsps?|oz|lbs?|cans?\s+of|pouche?s?|"
+        r"slices?|leaves?|pieces?|cloves?|pinch|dash|"
+        r"tablespoons?|teaspoons?|pounds?|ounces?|"
+        r"large|medium|small|packed|fresh|dried|"
+        r"ripe|chopped|diced|minced|grated|shredded|"
+        r"crushed|ground|whole|thin|thick)\b\s*",
         "",
-        raw.strip(),
+        cleaned,
         flags=re.IGNORECASE,
     )
-    # Remove prep notes after comma (e.g. ", shredded", ", diced")
+    # Second pass for stacked adjectives
+    cleaned = re.sub(
+        r"^(large|medium|small|packed|fresh|dried|"
+        r"ripe|chopped|diced|minced|grated|shredded|"
+        r"crushed|ground|whole|thin|thick)\b\s*",
+        "",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(r"^of\s+", "", cleaned, flags=re.IGNORECASE)
+    # Remove prep notes after comma
     cleaned = re.split(r",\s*", cleaned)[0]
     return cleaned.strip().lower()
 

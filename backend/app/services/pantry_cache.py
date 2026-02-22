@@ -21,9 +21,11 @@ class PantryCache:
         return self._cache
 
     def get_item_names(self) -> set[str]:
+        """Return all pantry item names (regardless of current stock status).
+        For demo purposes, we treat all known pantry items as 'ASUCD Pantry' sourced."""
         if self._cache is None:
             return set()
-        return {item["name"].lower() for item in self._cache if item.get("available")}
+        return {item["name"].lower() for item in self._cache}
 
     def invalidate(self):
         self._cache = None
